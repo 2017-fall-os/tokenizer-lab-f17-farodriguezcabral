@@ -1,52 +1,36 @@
+//Francisco Rodriguez Cabral
 #include <stdio.h>
 #include <stdlib.h> //for malloc
 #include "mytoc.h"
 
-#define BUFLEN 100
-
-//int compare(char **buffer);
-//char ** mytoc(char *str, char delim);
+#define BUFLEN 100 //maximum lenght allowed for user input
 
 int main (void){
-  //char *input = (char*)malloc(sizeof(char)*5);
+  
   //Get the input from the user. Input must be no greater than 100 characters
-  int exit = 1;
-  
-  char *input = "Hello world";
-  char user[BUFLEN];
-  char ** test = mytoc(input, ' ');
-
+  char *input = (char*)malloc(100);
+  //test case provided on course website
+  char ** test = mytoc("", ' ');
+  //Print out the tokens from ** test
   for(int i = 0; test[i] != '\0'; i++){
-    write(1,"&",1);
-    write(1,test[1],5);
+    write(1,"|",1);
+    write(1,test[i],sizeof(test[i])+1);
   }
-  
-  while(exit){
-
-    
-    input = (char*)malloc(50);
+  //start while loop to get input strings from user
+  while(1){
+    //print a new line
+    write(1,'\n',1);
     //Print dollar symbol on console
-    read(0,user,100);
     write(1,"$",1);
-    write(1,&input,sizeof(*input));
-    // write(1,"Before compare",5);
-    // exit = compare(&input);
-    //write(1,"after exit",8);
-    // free(input);
-    //write(1,"after freeing",10);
-    
+    read(0,input,BUFLEN);
+    //store the tokens retrieved from the mytoc function call
+    char ** tokens = mytoc(input,' ');
+    for(int i = 0; tokens[i] != '\0'; i++){
+      //separate each token
+      write(1,"|",1);
+      write(1,tokens[i],(sizeof(tokens[i]))+1);
+    }
+     write(1,'\n',1);
   }
   return 0;
-}
-
-
-int compare(char **buffer){
-  char *end_loop = "exit";
-  
-  for(; **buffer == *end_loop; **buffer++, *end_loop++){
-    if(*buffer == '\0')
-      return 0;   
-  }
-  
-  return **buffer - *end_loop;
 }
